@@ -12,6 +12,7 @@
     "babel-preset-react": "^6.16.0",
     "eslint": "^3.7.1",
     "eslint-plugin-react": "^6.3.0",
+    "http-server": "^0.9.0",
     "react": "^15.3.2",
     "react-bootstrap-modal": "^3.0.0",
     "react-dom": "^15.3.2",
@@ -20,6 +21,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "scripts": {
+    "simpleServe": "./node_modules/.bin/http-server -c-1",
     "serve": "webpack-dev-server --content-base build",
     "watch": "webpack --watch"
   },

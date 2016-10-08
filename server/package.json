@@ -1,0 +1,19 @@
+{
+  "name": "scrapped-ideas-server",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-jsonschema": "^1.1.6",
+    "mongo-express": "^0.31.4",
+    "mongodb": "^2.2.10"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

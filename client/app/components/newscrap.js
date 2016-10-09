@@ -1,7 +1,7 @@
 import React from 'react';
 import LC from 'literallycanvas';
-import postScrap from '../server';
-import hashHistory from 'react-router';
+import {postScrap} from '../server';
+import {hashHistory} from 'react-router';
 
 export default class NewScrap extends React.Component {
   constructor(props){
@@ -17,8 +17,8 @@ export default class NewScrap extends React.Component {
     };
     var lc = this._lc;
     var imgData = lc.getImage({rect: imageBounds}).toDataURL();
-    postScrap(imgData, (scrapUrl) => {
-      hashHistory.push(scrapUrl);
+    postScrap(imgData, (scrapData) => {
+      hashHistory.push("/scraps/" + scrapData._id + "/url");
     });
   }
 
@@ -34,7 +34,7 @@ export default class NewScrap extends React.Component {
         </div>
         <div className="row text-center">
           <div className="col-md-6 col-md-offset-3">
-            <a className="btn btn-default btn-lg" onClick={(e)=>this.handleSubmitButtonPressed(e)} disabled={!this.state.editing}>
+            <a className="btn btn-default btn-lg" onClick={(e)=>{this.handleSubmitButtonPressed(e)}} disabled={!this.state.editing}>
               Submit
             </a>
           </div>

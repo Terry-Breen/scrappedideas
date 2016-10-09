@@ -1,7 +1,7 @@
 import React from 'react';
 import LC from 'literallycanvas';
-import getScrapData from '../server';
-import hashHistory from 'react-router';
+import {getScrapData, postFinishedIdea} from '../server';
+import {hashHistory} from 'react-router';
 
 export default class FinishScrap extends React.Component {
   constructor(props){
@@ -38,7 +38,7 @@ export default class FinishScrap extends React.Component {
               <LC.LiterallyCanvasReactComponent onInit={(lc)=>{
                   this._lc=lc;
                   var image = new Image();
-                  image.src = this.state.scrap.scrapURL; //XXX ACCESSING URL XXX
+                  image.src = this.state.scrap.image;
                   lc.saveShape(LC.createShape('Image', {x: 0, y: 0, image: image}));
               }} imageURLPrefix="/imgs/img" />
             </div>
@@ -46,7 +46,7 @@ export default class FinishScrap extends React.Component {
         </div>
         <div className="row text-center">
           <div className="col-md-6 col-md-offset-3">
-            <a className="btn btn-default btn-lg" onClick={(e)=>this.handleSubmitButtonPressed(e)} disabled={!this.state.editing}>
+            <a className="btn btn-default btn-lg" onClick={(e)=>{this.handleSubmitButtonPressed(e)}} disabled={!this.state.editing}>
               Submit
             </a>
           </div>

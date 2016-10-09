@@ -25,11 +25,9 @@ ReactDOM.render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={StartPage} />
-      <Route path="scraps/:scrapid" component={ScrapPage} >
-        <IndexRoute component={ScrapPage} />
-        <Route path="url" component={ScrapURL} />
-        <Route path="finish-scrap" component={FinishScrap} />
-      </Route>
+      <Route path="scraps/:scrapid" component={ScrapPage} />
+      <Route path="scraps/:scrapid/url" component={ScrapURL} />
+      <Route path="scraps/:scrapid/finish-scrap" component={FinishScrap} />
       <Route path="scraps-create" component={NewScrap} />
       <Route path="about" component={AboutPage} />
     </Route>

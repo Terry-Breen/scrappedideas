@@ -19,3 +19,8 @@ body{
 .about-container{
   background-color: white;
 }
+
+.image-separator{
+  border-width: 5px;
+  border-color: black;
+}

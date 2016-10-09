@@ -12,12 +12,6 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 var url = 'mongodb://localhost:27017/scrappedideas';
 
-// Import Node's HTTPS API.
-var https = require('https');
-// Import Node's file system API.
-var fs = require('fs');
-var path = require('path');
-
 
 MongoClient.connect(url, function(err, db) {
   app.use(bodyParser.text());
@@ -31,7 +25,7 @@ MongoClient.connect(url, function(err, db) {
       "image": image,
       "finishedDrawings": []
     }
-    db.collection('scraps').insertOne(image, function(err, result){
+    db.collection('scraps').insertOne(newScrap, function(err, result){
       if (err) {
         return callback(err);
       }
@@ -42,8 +36,7 @@ MongoClient.connect(url, function(err, db) {
 
   // put a new (scrapid, image, []) into database
   app.post('/scraps', function(req, res) {
-    var image = req.params.image;
-    var address = req.params.url;
+    var image = req.body.image;
     storeImage(image, function(err, id){
       if (err) {
         res.status(500).send("A database error occured: " + err);
@@ -62,12 +55,13 @@ MongoClient.connect(url, function(err, db) {
           return callback(err);
         }
         callback(null, result);
-  }
+      });
+    }
 
   // put a new path into the finished path array of an element of the database
   app.post('/scraps/:scrapid/finished', function(req, res) {
-    var id = req.params.id
-    var image = req.params.image
+    var id = new ObjectID(req.params.scrapid)
+    var image = req.body.image
       addFinishedDrawing(id, image, function(err, result){
         if (err) {
           res.status(500).send("A database error occured: " + err);
@@ -79,36 +73,32 @@ MongoClient.connect(url, function(err, db) {
   });
 
   function getFinishedDrawings(id, callback){
-    var document = db.collection('scraps').findOne({_id : id}, function(err){
-      if(err){
-        callback(err);
-      }
+    db.collection('scraps').findOne({_id : id}, function(err, result){
+      callback(err, result);
     });
-    callback(null, tojson(document));
   }
 
   // return each finished image in the array contained by the document with id === scrapid
-  app.get('/scraps/:scrapid/finished', function(req, res) {
-    var id = req.params.id;
+  app.get('/scraps/:scrapid', function(req, res) {
+    var id = new ObjectID(req.params.scrapid);
     getFinishedDrawings(id, function(err, result){
       if (err) {
         res.status(500).send("A database error occured: " + err);
+      }else if(result === null){
+        res.status(400).end();
       }
       res.send(result);
-    }
+    });
 });
 
   function getParticularDrawing(id, image, callback){
-    var document = db.collection('scraps').findOne({_id : id}, {finishedDrawing: {$elemMatch : ObjectID(image)}}, function(err){
-      if(err){
-        callback(err);
-      }
+    db.collection('scraps').findOne({_id : id}, {finishedDrawing: {$elemMatch : ObjectID(image)}}, function(err, result){
+      callback(err, result);
     });
-    callback(null, tojson(document));
   }
 
   // return finished image specified
-  app.get('/folder/:image', function(req, res) {
+  /*app.get('/folder/:image', function(req, res) {
     var id = req.params.id;
     var image = req.params.image;
     getParticularDrawing(id, image, function(err, result){
@@ -118,20 +108,22 @@ MongoClient.connect(url, function(err, db) {
       res.send(result);
     })
 
-  });
+  });XXX*/
 
-  app.get('/scraps', function(req, res)) {
-    db.collection('scraps').agregate({$sample: {size: 1}}).toArray(function(err, item){
+ //Gets random scrap
+  app.get('/scraps', function(req, res) {
+    db.collection('scraps').aggregate({$sample: {size: 10}}).toArray(function(err, item){
+      var rand = Math.floor(Math.random() * 10);
       if (err) {
         res.status(500).send("A database error occured: " + err);
       }
-      else if (item[0] === null){
-        res.status(500).send("No item was found: " + err);
+      else if (item[rand % item.length] === null){
+        res.status(400).end();
       }
-      var scrap = item[0];
+      var scrap = item[rand % item.length];
       res.send(scrap);
     })
-  }
+  });
 
   // Starts an https server on port 3000!
   app.listen(3000, function() {

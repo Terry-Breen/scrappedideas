@@ -56,8 +56,8 @@ function sendXHR(verb, resource, body, type, cb) {
 * Posts a new idea scrap.
 */
 export function postScrap(image, cb){
-  sendXHR("POST", "/scraps", {"image": image}, "image", (xhr) => {
-    cb(xhr.responseText);
+  sendXHR("POST", "/scraps", {"image": image}, "object", (xhr) => {
+    cb(JSON.parse(xhr.responseText));
   });
 }
 
@@ -65,8 +65,8 @@ export function postScrap(image, cb){
 * Posts a finished version of a scrap.
 */
 export function postFinishedIdea(scrapID, image, cb){
-  sendXHR("POST", "/scraps/" + scrapID, {"image": image}, "image", (xhr) => {
-    cb(xhr.responseText);
+  sendXHR("POST", "/scraps/" + scrapID + "/finished", {"image": image}, "object", (xhr) => {
+    cb(JSON.parse(xhr.responseText));
   });
 }
 
@@ -84,6 +84,6 @@ export function getScrapData(scrapID,cb){
 */
 export function getRandomScrap(cb){
   sendXHR("Get", "/scraps", undefined, "none", (xhr) => {
-    cb(xhr.responseText);
+    cb(JSON.parse(xhr.responseText));
   });
 }

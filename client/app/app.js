@@ -6,6 +6,8 @@ import ScrapPage from './components/scrappage'
 import NewScrap from './components/newscrap'
 import FinishScrap from './components/finishscrap'
 import Navbar from './components/navbar'
+import ScrapURL from './components/scrapurl'
+import AboutPage from './components/about'
 
 
 class App extends React.Component {
@@ -29,6 +31,7 @@ ReactDOM.render((
         <Route path="finish-scrap" component={FinishScrap} />
       </Route>
       <Route path="scraps-create" component={NewScrap} />
+      <Route path="about" component={AboutPage} />
     </Route>
   </Router>
 ),document.getElementById('site'));

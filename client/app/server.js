@@ -1,4 +1,4 @@
-
+//Adapted from code from  http://umass-cs-326.github.io/
 function sendXHR(verb, resource, body, type, cb) {
   var xhr = new XMLHttpRequest();
   xhr.open(verb, resource);

@@ -2,19 +2,13 @@ import React from 'react';
 import LC from 'literallycanvas'
 
 export default class NewScrap extends React.Component {
-  constructor(props){
-    super(props);
-  }
-
   render(){
     return (
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6 col-md-offset-3">
             <div className="literally">
-              <LC.LiterallyCanvasReactComponent imageURLPrefix="/imgs/img" onInit={(lc) => {
-                  console.log("initialized with", lc);
-                }}/>
+              <LC.LiterallyCanvasReactComponent imageURLPrefix="/imgs/img" />
             </div>
           </div>
         </div>

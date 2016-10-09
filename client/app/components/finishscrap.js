@@ -6,8 +6,8 @@ export default class FinishScrap extends React.Component {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6 col-md-offset-3">
-            <div className="literally-canvas">
-              
+            <div className="literally">
+              <LC.LiterallyCanvasReactComponent imageURLPrefix="/imgs/img" />
             </div>
           </div>
         </div>

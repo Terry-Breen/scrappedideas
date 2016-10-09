@@ -22,11 +22,10 @@ class App extends React.Component {
 ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRoute component={NewScrap} />
+      <IndexRoute component={StartPage} />
       <Route path="scraps/:scrapid" component={ScrapPage} />
       <Route path="scraps-create" component={NewScrap} />
       <Route path="finish-scrap" component={FinishScrap} />
-
     </Route>
   </Router>
 ),document.getElementById('site'));

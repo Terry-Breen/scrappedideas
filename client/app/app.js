@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { IndexRoute, Router, Route, browserHistory } from 'react-router'
+import { IndexRoute, Router, Route, hashHistory} from 'react-router'
 import StartPage from './components/startpage'
 import ScrapPage from './components/scrappage'
 import NewScrap from './components/newscrap'
@@ -20,12 +20,15 @@ class App extends React.Component {
 }
 
 ReactDOM.render((
-  <Router history={browserHistory}>
+  <Router history={hashHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={StartPage} />
-      <Route path="scraps/:scrapid" component={ScrapPage} />
+      <Route path="scraps/:scrapid" component={ScrapPage} >
+        <IndexRoute component={ScrapPage} />
+        <Route path="url" component={ScrapURL} />
+        <Route path="finish-scrap" component={FinishScrap} />
+      </Route>
       <Route path="scraps-create" component={NewScrap} />
-      <Route path="finish-scrap" component={FinishScrap} />
     </Route>
   </Router>
 ),document.getElementById('site'));

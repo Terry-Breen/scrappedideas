@@ -1,5 +1,5 @@
 
-function sendXHR(verb, resource, body, cb) {
+function sendXHR(verb, resource, body, type, cb) {
   var xhr = new XMLHttpRequest();
   xhr.open(verb, resource);
 
@@ -27,9 +27,8 @@ function sendXHR(verb, resource, body, cb) {
     console.log('Could not ' + verb + " " + resource + ": Request timed out.");
   });
 
-  //TODO ADD IMAGE HANDLING
-  switch (typeof(body)) {
-    case 'undefined':
+  switch (type) {
+    case 'none':
       // No body to send.
       xhr.send();
       break;
@@ -44,6 +43,10 @@ function sendXHR(verb, resource, body, cb) {
       // Convert body into a JSON string.
       xhr.send(JSON.stringify(body));
       break;
+    case 'image':
+      xhr.setRequestHeader("Content-Type", "image/png");
+      xhr.send(body);
+      break;
     default:
       throw new Error('Unknown body type: ' + typeof(body));
   }
@@ -53,26 +56,34 @@ function sendXHR(verb, resource, body, cb) {
 * Posts a new idea scrap.
 */
 export function postScrap(image, cb){
-
+  sendXHR("POST", "/scraps", {"image": image}, "image", (xhr) => {
+    cb(xhr.responseText);
+  });
 }
 
 /**
 * Posts a finished version of a scrap.
 */
 export function postFinishedIdea(scrapID, image, cb){
-
+  sendXHR("POST", "/scraps/" + scrapID, {"image": image}, "image", (xhr) => {
+    cb(xhr.responseText);
+  });
 }
 
 /**
 * Gets image URLS for a scrap as well as its finished versions.
 */
-export function getScrapData(scrapID){
-
+export function getScrapData(scrapID,cb){
+  sendXHR("Get", "/scraps/" + scrapID, undefined, "none", (xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 /**
-* Requests a random scrap.
+* Requests a random scrap ID.
 */
-export function getRandomScrap(){
-
+export function getRandomScrap(cb){
+  sendXHR("Get", "/scraps", undefined, "none", (xhr) => {
+    cb(xhr.responseText);
+  });
 }

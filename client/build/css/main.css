@@ -1,0 +1,21 @@
+.literally{
+  height: 350px;
+  width: 500px;
+}
+
+.startpage-btn{
+  margin: 5px;
+}
+
+.startpage-btn h1{
+  padding: 7px;
+  margin-top: 10px;
+}
+
+body{
+  background-color: lightgrey;
+}
+
+.about-container{
+  background-color: white;
+}

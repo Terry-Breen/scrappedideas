@@ -113,12 +113,25 @@ MongoClient.connect(url, function(err, db) {
     var image = req.params.image;
     getParticularDrawing(id, image, function(err, result){
       if (err) {
-        res.status(500).send("Drawing does not exist:" + err);
+        res.status(500).send("A database error occured: " + err);
       }
       res.send(result);
     })
 
   });
+
+  app.get('/scraps', function(req, res)) {
+    db.collection('scraps').agregate({$sample: {size: 1}}).toArray(function(err, item){
+      if (err) {
+        res.status(500).send("A database error occured: " + err);
+      }
+      else if (item[0] === null){
+        res.status(500).send("No item was found: " + err);
+      }
+      var scrap = item[0];
+      res.send(scrap);
+    })
+  }
 
   // Starts an https server on port 3000!
   app.listen(3000, function() {
